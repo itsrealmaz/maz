@@ -16,26 +16,34 @@
       --pulse-duration: 8s;
     }
     
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    
+    body {
       min-height: 100vh;
       background: var(--cosmic-black);
       font-family: 'Space Grotesk', sans-serif;
       color: var(--starlight-white);
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       position: relative;
+      overflow-y: auto; /* Enable vertical scrolling */
     }
     
     #particles-js {
-      position: absolute;
+      position: fixed;
       width: 100%;
       height: 100%;
       z-index: 0;
+      top: 0;
+      left: 0;
     }
     
     .content-wrapper {
@@ -48,6 +56,8 @@
       justify-content: center;
       flex-grow: 1;
       padding: 2rem;
+      min-height: 100vh;
+      box-sizing: border-box;
       opacity: 0;
       animation: fadeIn 1.5s ease-out 0.5s forwards;
     }
@@ -93,6 +103,8 @@
       display: flex;
       gap: 2rem;
       margin-bottom: 4rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     
     .social-link {
@@ -102,6 +114,7 @@
       position: relative;
       opacity: 0;
       transform: translateY(20px);
+      padding: 0.5rem;
     }
     
     .social-link:nth-child(1) {
@@ -177,7 +190,7 @@
     
     /* Cosmic Orbs */
     .cosmic-orb {
-      position: absolute;
+      position: fixed;
       border-radius: 50%;
       filter: blur(60px);
       z-index: 1;
@@ -237,6 +250,38 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 2rem 1rem;
+        min-height: 90vh;
+      }
+      
+      .cosmic-text {
+        font-size: 1.8rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 2rem;
+      }
+      
+      .social-links {
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+      }
+      
+      footer {
+        padding: 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .copyright {
+        font-size: 0.9rem;
+      }
+      
+      .orb-1, .orb-2 {
+        filter: blur(40px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -250,10 +295,10 @@
     <h1 class="cosmic-text"><span>This Website Built by Islam Mazharul</span></h1>
     
     <div class="social-links">
-      <a href="https://www.instagram.com/itsmaz29" class="social-link" target="_blank">
+      <a href="https://www.instagram.com/itsmaz29" class="social-link" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-instagram"></i>
       </a>
-      <a href="https://www.tiktok.com/@itsmaz12" class="social-link" target="_blank">
+      <a href="https://www.tiktok.com/@itsmaz12" class="social-link" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-tiktok"></i>
       </a>
     </div>
@@ -265,7 +310,7 @@
       <span class="copyright-symbol">©</span>
       <span>2025 MAZ | All rights reserved</span>
     </div>
-    <div>Powered by <a href="https://maz.qzz.io" class="footer-link" target="_blank">maz.qzz.io</a></div>
+    <div>Powered by <a href="https://maz.qzz.io" class="footer-link" target="_blank" rel="noopener noreferrer">maz.qzz.io</a></div>
   </footer>
 
   <!-- Particles.js -->
@@ -274,7 +319,7 @@
     particlesJS("particles-js", {
       "particles": {
         "number": { 
-          "value": 80, 
+          "value": 60, 
           "density": { 
             "enable": true, 
             "value_area": 800 
@@ -312,14 +357,14 @@
         },
         "line_linked": {
           "enable": true,
-          "distance": 150,
+          "distance": 120,
           "color": "#7b2cbf",
-          "opacity": 0.4,
+          "opacity": 0.3,
           "width": 1
         },
         "move": {
           "enable": true,
-          "speed": 1.5,
+          "speed": 1.2,
           "direction": "none",
           "random": true,
           "straight": false,
@@ -347,13 +392,13 @@
         },
         "modes": {
           "grab": { 
-            "distance": 140, 
+            "distance": 120, 
             "line_linked": { 
-              "opacity": 0.8 
+              "opacity": 0.5 
             } 
           },
           "push": { 
-            "particles_nb": 4 
+            "particles_nb": 3 
           }
         }
       },
@@ -366,6 +411,15 @@
         document.body.style.transition = 'opacity 1s ease';
         document.body.style.opacity = 1;
       }, 100);
+    });
+
+    // Disable horizontal scroll on mobile
+    window.addEventListener('scroll', function() {
+      if (window.innerWidth <= 768) {
+        if (window.scrollY !== 0) {
+          window.scrollTo(0, window.scrollY);
+        }
+      }
     });
 
     console.log('%c✨ MAZ Universe', 'font-size: 18px; color: #7b2cbf; font-weight: bold;');
