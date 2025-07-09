@@ -1,578 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alex Morgan | Personal Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --black: #000;
-            --white: #fff;
-            --light-gray: #f5f5f5;
-            --medium-gray: #e0e0e0;
-            --dark-gray: #333;
-        }
-        
-        body {
-            font-family: 'Raleway', sans-serif;
-            background-color: var(--white);
-            color: var(--black);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: var(--white);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-        
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: var(--black);
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 30px;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--black);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: #777;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="black" stroke-width="0.5"/></svg>');
-            background-size: 20px 20px;
-            padding-top: 80px;
-        }
-        
-        .hero-content {
-            max-width: 700px;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: var(--dark-gray);
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--black);
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 600;
-            border: 2px solid var(--black);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background: transparent;
-            color: var(--black);
-        }
-        
-        /* Section Styles */
-        section {
-            padding: 100px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 70px;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 15px;
-        }
-        
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--black);
-        }
-        
-        /* About Section */
-        .about-content {
-            display: flex;
-            gap: 50px;
-            align-items: center;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-        
-        .about-text p {
-            margin-bottom: 20px;
-        }
-        
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .skill {
-            padding: 8px 15px;
-            background: var(--light-gray);
-            border: 1px solid var(--medium-gray);
-            border-radius: 3px;
-            font-size: 0.9rem;
-        }
-        
-        .about-image {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .profile-img {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--white);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Portfolio Section */
-        .portfolio {
-            background-color: var(--light-gray);
-        }
-        
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .portfolio-item {
-            background: var(--white);
-            border: 1px solid var(--medium-gray);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .portfolio-item:hover {
-            transform: translateY(-10px);
-        }
-        
-        .portfolio-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .portfolio-info {
-            padding: 20px;
-        }
-        
-        .portfolio-info h3 {
-            margin-bottom: 10px;
-        }
-        
-        /* Contact Section */
-        .contact-container {
-            display: flex;
-            gap: 50px;
-        }
-        
-        .contact-info {
-            flex: 1;
-        }
-        
-        .contact-info h3 {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        
-        .contact-details {
-            margin-bottom: 30px;
-        }
-        
-        .contact-details p {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .contact-details i {
-            margin-right: 10px;
-            width: 20px;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: var(--black);
-            color: var(--white);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .social-links a:hover {
-            background: var(--white);
-            color: var(--black);
-            border: 1px solid var(--black);
-        }
-        
-        .contact-form {
-            flex: 1;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--medium-gray);
-            background: var(--white);
-            font-family: 'Raleway', sans-serif;
-        }
-        
-        textarea.form-control {
-            height: 150px;
-            resize: vertical;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--black);
-            color: var(--white);
-            padding: 40px 0 20px;
-            text-align: center;
-        }
-        
-        .footer-content {
-            margin-bottom: 30px;
-        }
-        
-        .copyright {
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .about-content,
-            .contact-container {
-                flex-direction: column;
-            }
-            
-            .about-image {
-                order: -1;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .animated {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAZ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap');
+    
+    :root {
+      --cosmic-black: #0a0a0a;
+      --starlight-white: #f0f0f0;
+      --maz-purple: #7b2cbf;
+      --maz-blue: #00bbf9;
+      --pulse-duration: 8s;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--cosmic-black);
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--starlight-white);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      padding: 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-out 0.5s forwards;
+    }
+    
+    .cosmic-text {
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      position: relative;
+      text-align: center;
+      padding: 0 2rem;
+      text-shadow: 0 0 15px rgba(123, 44, 191, 0.4);
+    }
+    
+    .cosmic-text span {
+      display: inline-block;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: textReveal 0.8s ease-out 1s forwards;
+    }
+    
+    .cosmic-text::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--maz-purple), var(--maz-blue));
+      transform-origin: center;
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    
+    .cosmic-text:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .social-link {
+      color: var(--starlight-white);
+      font-size: 1.5rem;
+      transition: all 0.4s ease;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .social-link:nth-child(1) {
+      animation: socialReveal 0.8s ease-out 1.3s forwards;
+    }
+    
+    .social-link:nth-child(2) {
+      animation: socialReveal 0.8s ease-out 1.5s forwards;
+    }
+    
+    .social-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--maz-purple), var(--maz-blue));
+      transition: width 0.3s ease;
+    }
+    
+    .social-link:hover {
+      color: var(--maz-purple);
+      transform: translateY(-3px) scale(1.1);
+    }
+    
+    .social-link:hover::after {
+      width: 100%;
+    }
+    
+    footer {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0;
+      animation: footerReveal 1s ease-out 2s forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .copyright {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    
+    .copyright-symbol {
+      font-size: 1.2rem;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    
+    .footer-link {
+      color: var(--starlight-white);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      background: linear-gradient(90deg, var(--maz-purple), var(--maz-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 500;
+    }
+    
+    .footer-link:hover {
+      text-shadow: 0 0 10px rgba(123, 44, 191, 0.5);
+    }
+    
+    /* Cosmic Orbs */
+    .cosmic-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: 1;
+      opacity: 0.5;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+    
+    .orb-1 {
+      width: 300px;
+      height: 300px;
+      background: var(--maz-purple);
+      top: -100px;
+      left: -100px;
+      animation: floatOrb 15s infinite, pulse var(--pulse-duration) infinite alternate;
+    }
+    
+    .orb-2 {
+      width: 200px;
+      height: 200px;
+      background: var(--maz-blue);
+      bottom: -50px;
+      right: -50px;
+      animation: floatOrb 12s infinite reverse, pulse calc(var(--pulse-duration) - 2s) infinite alternate-reverse;
+    }
+    
+    /* Animations */
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(50px, 50px); }
+      50% { transform: translate(0, 100px); }
+      75% { transform: translate(-50px, 50px); }
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: scale(0.95); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+      100% { opacity: 0.3; transform: scale(0.95); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes textReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes socialReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes footerReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">AM</a>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  <!-- Cosmic Background Elements -->
+  <div id="particles-js"></div>
+  <div class="cosmic-orb orb-1"></div>
+  <div class="cosmic-orb orb-2"></div>
+  
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <h1 class="cosmic-text"><span>This Website Built by Islam Mazharul</span></h1>
+    
+    <div class="social-links">
+      <a href="https://www.instagram.com/itsmaz29" class="social-link" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@itsmaz12" class="social-link" target="_blank">
+        <i class="fab fa-tiktok"></i>
+      </a>
+    </div>
+  </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content animated">
-                <h1>Alex Morgan<br>Web Developer & Designer</h1>
-                <p>I create elegant, functional digital experiences with a focus on clean design and user-centric solutions.</p>
-                <a href="#portfolio" class="btn">View My Work</a>
-            </div>
-        </div>
-    </section>
+  <!-- Animated Footer -->
+  <footer>
+    <div class="copyright">
+      <span class="copyright-symbol">©</span>
+      <span>2025 MAZ | All rights reserved</span>
+    </div>
+    <div>Powered by <a href="https://maz.qzz.io" class="footer-link" target="_blank">maz.qzz.io</a></div>
+  </footer>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Me</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-text animated">
-                    <h3>Hello, I'm Alex</h3>
-                    <p>I'm a passionate web developer and designer with 5+ years of experience creating digital products. My approach combines technical expertise with a keen eye for aesthetics.</p>
-                    <p>Specializing in front-end development and UI/UX design, I strive to build interfaces that are not only beautiful but also intuitive and accessible.</p>
-                    
-                    <div class="skills">
-                        <span class="skill">HTML5</span>
-                        <span class="skill">CSS3</span>
-                        <span class="skill">JavaScript</span>
-                        <span class="skill">React</span>
-                        <span class="skill">UI/UX Design</span>
-                        <span class="skill">Responsive Design</span>
-                        <span class="skill">Git</span>
-                    </div>
-                </div>
-                <div class="about-image animated">
-                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='300' height='300' fill='%23f5f5f5'/><circle cx='150' cy='120' r='60' fill='%23e0e0e0'/><rect x='80' y='190' width='140' height='80' fill='%23e0e0e0'/></svg>" alt="Profile Image" class="profile-img">
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { 
+          "value": 80, 
+          "density": { 
+            "enable": true, 
+            "value_area": 800 
+          } 
+        },
+        "color": { 
+          "value": ["#7b2cbf", "#00bbf9"] 
+        },
+        "shape": { 
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+          "anim": { 
+            "enable": true, 
+            "speed": 1, 
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": { 
+            "enable": true, 
+            "speed": 2, 
+            "size_min": 0.3,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#7b2cbf",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": { 
+            "enable": true, 
+            "rotateX": 600, 
+            "rotateY": 1200 
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { 
+            "enable": true, 
+            "mode": "grab" 
+          },
+          "onclick": { 
+            "enable": true, 
+            "mode": "push" 
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": { 
+            "distance": 140, 
+            "line_linked": { 
+              "opacity": 0.8 
+            } 
+          },
+          "push": { 
+            "particles_nb": 4 
+          }
+        }
+      },
+      "retina_detect": true
+    });
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio">
-        <div class="container">
-            <div class="section-title">
-                <h2>My Portfolio</h2>
-            </div>
-            <div class="portfolio-grid">
-                <div class="portfolio-item animated">
-                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23f0f0f0'/><rect x='50' y='30' width='300' height='20' fill='%23e0e0e0'/><rect x='50' y='70' width='300' height='20' fill='%23e0e0e0'/><rect x='50' y='110' width='300' height='20' fill='%23e0e0e0'/><rect x='50' y='150' width='300' height='20' fill='%23e0e0e0'/></svg>" alt="Project 1" class="portfolio-img">
-                    <div class="portfolio-info">
-                        <h3>Minimal E-commerce</h3>
-                        <p>A clean, responsive online store with intuitive navigation and seamless checkout experience.</p>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item animated">
-                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23f0f0f0'/><circle cx='200' cy='100' r='60' fill='%23e0e0e0'/><rect x='150' y='60' width='100' height='80' fill='%23f0f0f0'/></svg>" alt="Project 2" class="portfolio-img">
-                    <div class="portfolio-info">
-                        <h3>Portfolio Platform</h3>
-                        <p>A customizable portfolio template for creatives with dark/light mode and CMS integration.</p>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item animated">
-                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'><rect width='400' height='200' fill='%23f0f0f0'/><rect x='50' y='30' width='300' height='140' fill='%23e0e0e0'/><circle cx='100' cy='100' r='30' fill='%23f0f0f0'/><rect x='150' y='80' width='180' height='40' fill='%23f0f0f0'/></svg>" alt="Project 3" class="portfolio-img">
-                    <div class="portfolio-info">
-                        <h3>Task Management App</h3>
-                        <p>Productivity application with drag-and-drop interface and collaborative features.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    document.body.style.opacity = 0;
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.body.style.transition = 'opacity 1s ease';
+        document.body.style.opacity = 1;
+      }, 100);
+    });
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>Get In Touch</h2>
-            </div>
-            <div class="contact-container">
-                <div class="contact-info animated">
-                    <h3>Contact Information</h3>
-                    <div class="contact-details">
-                        <p><i class="fas fa-envelope"></i> hello@alexmorgan.dev</p>
-                        <p><i class="fas fa-map-marker-alt"></i> San Francisco, CA</p>
-                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                    </div>
-                    
-                    <h3>Follow Me</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-dribbble"></i></a>
-                    </div>
-                </div>
-                
-                <div class="contact-form animated">
-                    <form>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <a href="#" class="logo">AM</a>
-                <p>Creating elegant digital experiences</p>
-            </div>
-            <div class="copyright">
-                &copy; 2023 Alex Morgan. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Simple scroll animation for sections
-        document.addEventListener('DOMContentLoaded', function() {
-            const animatedElements = document.querySelectorAll('.animated');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animation = 'fadeIn 0.8s ease-out forwards';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        window.scrollTo({
-                            top: target.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
+    console.log('%c✨ MAZ Universe', 'font-size: 18px; color: #7b2cbf; font-weight: bold;');
+    console.log('%cPurple & Blue Cosmic Experience', 'color: #00bbf9;');
+  </script>
 </body>
 </html>
