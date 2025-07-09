@@ -1,9 +1,375 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=home" />
-  </head>
-  <body>
-    <p>Redirecting to <a href="home.html">home</a>...</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAZ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap');
+    
+    :root {
+      --cosmic-black: #0a0a0a;
+      --starlight-white: #f0f0f0;
+      --maz-purple: #7b2cbf;
+      --maz-blue: #00bbf9;
+      --pulse-duration: 8s;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--cosmic-black);
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--starlight-white);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      padding: 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-out 0.5s forwards;
+    }
+    
+    .cosmic-text {
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      position: relative;
+      text-align: center;
+      padding: 0 2rem;
+      text-shadow: 0 0 15px rgba(123, 44, 191, 0.4);
+    }
+    
+    .cosmic-text span {
+      display: inline-block;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: textReveal 0.8s ease-out 1s forwards;
+    }
+    
+    .cosmic-text::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--maz-purple), var(--maz-blue));
+      transform-origin: center;
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    
+    .cosmic-text:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .social-link {
+      color: var(--starlight-white);
+      font-size: 1.5rem;
+      transition: all 0.4s ease;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .social-link:nth-child(1) {
+      animation: socialReveal 0.8s ease-out 1.3s forwards;
+    }
+    
+    .social-link:nth-child(2) {
+      animation: socialReveal 0.8s ease-out 1.5s forwards;
+    }
+    
+    .social-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--maz-purple), var(--maz-blue));
+      transition: width 0.3s ease;
+    }
+    
+    .social-link:hover {
+      color: var(--maz-purple);
+      transform: translateY(-3px) scale(1.1);
+    }
+    
+    .social-link:hover::after {
+      width: 100%;
+    }
+    
+    footer {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0;
+      animation: footerReveal 1s ease-out 2s forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .copyright {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    
+    .copyright-symbol {
+      font-size: 1.2rem;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    
+    .footer-link {
+      color: var(--starlight-white);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      background: linear-gradient(90deg, var(--maz-purple), var(--maz-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 500;
+    }
+    
+    .footer-link:hover {
+      text-shadow: 0 0 10px rgba(123, 44, 191, 0.5);
+    }
+    
+    /* Cosmic Orbs */
+    .cosmic-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: 1;
+      opacity: 0.5;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+    
+    .orb-1 {
+      width: 300px;
+      height: 300px;
+      background: var(--maz-purple);
+      top: -100px;
+      left: -100px;
+      animation: floatOrb 15s infinite, pulse var(--pulse-duration) infinite alternate;
+    }
+    
+    .orb-2 {
+      width: 200px;
+      height: 200px;
+      background: var(--maz-blue);
+      bottom: -50px;
+      right: -50px;
+      animation: floatOrb 12s infinite reverse, pulse calc(var(--pulse-duration) - 2s) infinite alternate-reverse;
+    }
+    
+    /* Animations */
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(50px, 50px); }
+      50% { transform: translate(0, 100px); }
+      75% { transform: translate(-50px, 50px); }
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: scale(0.95); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+      100% { opacity: 0.3; transform: scale(0.95); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes textReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes socialReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes footerReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cosmic Background Elements -->
+  <div id="particles-js"></div>
+  <div class="cosmic-orb orb-1"></div>
+  <div class="cosmic-orb orb-2"></div>
+  
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <h1 class="cosmic-text"><span>This Website Built by Islam Mazharul</span></h1>
+    
+    <div class="social-links">
+      <a href="https://www.instagram.com/itsmaz29" class="social-link" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@itsmaz12" class="social-link" target="_blank">
+        <i class="fab fa-tiktok"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Animated Footer -->
+  <footer>
+    <div class="copyright">
+      <span class="copyright-symbol">©</span>
+      <span>2025 MAZ | All rights reserved</span>
+    </div>
+    <div>Powered by <a href="https://maz.qzz.io" class="footer-link" target="_blank">maz.qzz.io</a></div>
+  </footer>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { 
+          "value": 80, 
+          "density": { 
+            "enable": true, 
+            "value_area": 800 
+          } 
+        },
+        "color": { 
+          "value": ["#7b2cbf", "#00bbf9"] 
+        },
+        "shape": { 
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+          "anim": { 
+            "enable": true, 
+            "speed": 1, 
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": { 
+            "enable": true, 
+            "speed": 2, 
+            "size_min": 0.3,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#7b2cbf",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": { 
+            "enable": true, 
+            "rotateX": 600, 
+            "rotateY": 1200 
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { 
+            "enable": true, 
+            "mode": "grab" 
+          },
+          "onclick": { 
+            "enable": true, 
+            "mode": "push" 
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": { 
+            "distance": 140, 
+            "line_linked": { 
+              "opacity": 0.8 
+            } 
+          },
+          "push": { 
+            "particles_nb": 4 
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    document.body.style.opacity = 0;
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.body.style.transition = 'opacity 1s ease';
+        document.body.style.opacity = 1;
+      }, 100);
+    });
+
+    console.log('%c✨ MAZ Universe', 'font-size: 18px; color: #7b2cbf; font-weight: bold;');
+    console.log('%cPurple & Blue Cosmic Experience', 'color: #00bbf9;');
+  </script>
+</body>
 </html>
