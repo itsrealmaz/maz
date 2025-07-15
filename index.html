@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAZ - Cosmic AI</title>
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                window.location.href = 'chat';
+            } else {
+                window.location.href = 'login';
+            }
+        });
+    </script>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f0c29;">
+        <div style="color: white; text-align: center;">
+            <h1 style="font-size: 2rem;">Loading MAZ Cosmic AI...</h1>
+            <p style="margin-top: 20px;">Please wait while we prepare your cosmic journey</p>
+        </div>
+    </div>
+</body>
+</html>
