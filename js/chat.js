@@ -25,7 +25,7 @@ const GEMINI_API_KEY = "AIzaSyCa4oS6AnLLRZJsC3HBIvEeAwzYRhGdUg4";
 // Check authentication state
 auth.onAuthStateChanged(user => {
     if (!user) {
-        window.location.href = 'login.html';
+        window.location.href = 'login';
     } else {
         userEmailEl.textContent = user.email;
     }
@@ -34,7 +34,7 @@ auth.onAuthStateChanged(user => {
 // Logout handler
 logoutBtn.addEventListener('click', () => {
     auth.signOut().then(() => {
-        window.location.href = 'login.html';
+        window.location.href = 'login';
     });
 });
 
@@ -125,7 +125,7 @@ async function fetchGeminiResponse(userMessage) {
 
     if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(`MAZ error: Gemini API responded with status ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
+        throw new Error(`MAZ error: status ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
     }
 
     const data = await response.json();
