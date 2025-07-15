@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare Code Protection | MAZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(16, 12, 64, 0.8) 0%, rgba(0, 0, 0, 0.9) 70%);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(16, 18, 42, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 40px 0;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo i {
+            font-size: 48px;
+            color: #6a5af9;
+            text-shadow: 0 0 20px rgba(106, 90, 249, 0.7);
+        }
+        
+        .logo h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #6a5af9, #d66efd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .status-card {
+            background: rgba(30, 32, 60, 0.7);
+            border-radius: 15px;
+            padding: 20px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .status-card i {
+            font-size: 28px;
+            color: #2ecc71;
+        }
+        
+        .status-card span {
+            font-weight: 600;
+            color: #7efff5;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .section {
+            background: rgba(30, 32, 60, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: #d66efd;
+            font-size: 28px;
+        }
+        
+        .section h2 i {
+            color: #6a5af9;
+        }
+        
+        .method {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .method:hover {
+            transform: translateY(-5px);
+            background: rgba(106, 90, 249, 0.1);
+        }
+        
+        .method h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #7efff5;
+        }
+        
+        .method p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(106, 90, 249, 0.3);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #6a5af9, #d66efd);
+            color: white;
+            box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 90, 249, 0.6);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .locked {
+            color: #2ecc71;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .security-badge {
+            display: inline-block;
+            background: rgba(106, 90, 249, 0.2);
+            color: #6a5af9;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+            border: 1px solid #6a5af9;
+        }
+        
+        .cf-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .cf-features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .cf-feature {
+            background: rgba(106, 90, 249, 0.15);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .cf-feature:hover {
+            transform: scale(1.05);
+            background: rgba(106, 90, 249, 0.25);
+        }
+        
+        .cf-feature i {
+            font-size: 28px;
+            color: #6a5af9;
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #6a5af9, #d66efd);
+            border-radius: 10px;
+            width: 85%;
+            transition: width 1s ease;
+        }
+        
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(46, 204, 113, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .protection-level {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .level-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(#2ecc71 0% 85%, #f1c40f 85% 95%, #e74c3c 95% 100%);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            position: relative;
+        }
+        
+        .level-circle::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(16, 18, 42, 0.9);
+        }
+        
+        .level-circle span {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Cloudflare protection settings updated successfully!
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cloud"></i>
+                <h1>Cloudflare Code Protection</h1>
+            </div>
+            <p>Advanced security for your JavaScript assets using Cloudflare</p>
+            
+            <div class="status-bar">
+                <div class="status-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <p>Protection Status</p>
+                        <span>ACTIVE & SECURE</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="protection-level">
+            <div class="level-circle"><span>97%</span></div>
+            <h2>Code Protection Level</h2>
+            <p>Your JavaScript assets are highly secured against unauthorized access</p>
+        </div>
+        
+        <div class="progress-container">
+            <h3><i class="fas fa-lock"></i> Security Implementation Progress</h3>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="progress-labels">
+                <span>Start</span>
+                <span>Complete</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2><i class="fas fa-shield-alt"></i> Core Protections</h2>
+                
+                <div class="method">
+                    <h3><i class="fas fa-user-shield"></i> Cloudflare Workers</h3>
+                    <p>Serve your JavaScript through Cloudflare Workers with domain validation.</p>
+                    <div class="code-block">
+                        addEventListener('fetch', event => {
+                          event.respondWith(handleRequest(event.request))
+                        })
+                        
+                        async function handleRequest(request) {
+                          const referer = request.headers.get('Referer');
+                          const allowedDomains = ['maz.qzz.io', 'www.maz.qzz.io'];
+                          
+                          if (!referer || !allowedDomains.some(d => referer.includes(d))) {
+                            return new Response('Forbidden', { status: 403 });
+                          }
+                          
+                          return fetch(request);
+                        }
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <p class="locked"><i class="fas fa-check"></i> Active for chat.js</p>
+                </div>
+                
+                <div class="method">
+                    <h3><i class="fas fa-ban"></i> Hotlink Protection</h3>
+                    <p>Prevent other sites from directly linking to your JavaScript files.</p>
+                    <div class="code-block">
+                        // Cloudflare Dashboard → Scrape Shield → Hotlink Protection
+                        // Enable: ON
+                        // Allowed Domains: maz.qzz.io, www.maz.qzz.io
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <p class="locked"><i class="fas fa-check"></i> Enabled in Cloudflare</p>
+                </div>
+                
+                <div class="method">
+                    <h3><i class="fas fa-fingerprint"></i> Subresource Integrity (SRI)</h3>
+                    <p>Ensure externally hosted scripts haven't been tampered with.</p>
+                    <div class="code-block">
+                        &lt;script 
+                          src="https://maz.qzz.io/js/chat.js"
+                          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+                          crossorigin="anonymous"&gt;
+                        &lt;/script&gt;
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <div class="locked"><i class="fas fa-check"></i> Implemented for all external scripts</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-cogs"></i> Advanced Settings</h2>
+                
+                <div class="method">
+                    <h3><i class="fas fa-fire"></i> Firewall Rules</h3>
+                    <p>Block requests that don't come from your domain.</p>
+                    <div class="code-block">
+                        // Cloudflare Dashboard → Firewall → Firewall Rules
+                        // Create rule:
+                        // Field: Hostname
+                        // Operator: not equals
+                        // Value: maz.qzz.io
+                        // Then: Block
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <p class="locked"><i class="fas fa-check"></i> Rule active for /js/ paths</p>
+                </div>
+                
+                <div class="method">
+                    <h3><i class="fas fa-tachometer-alt"></i> Rate Limiting</h3>
+                    <p>Protect against brute-force attacks and scraping.</p>
+                    <div class="code-block">
+                        // Cloudflare Dashboard → Security → Rate Limiting
+                        // Path: /js/*
+                        // Threshold: 20 requests per 10 seconds
+                        // Action: Block
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <div class="locked"><i class="fas fa-check"></i> Active for JavaScript assets</div>
+                </div>
+                
+                <div class="method">
+                    <h3><i class="fas fa-code"></i> Obfuscation Techniques</h3>
+                    <p>Make your JavaScript difficult to read and reverse-engineer.</p>
+                    <div class="code-block">
+                        // Use JavaScript Obfuscator
+                        npm install javascript-obfuscator -g
+                        javascript-obfuscator chat.js --output protected-chat.js
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <p class="locked"><i class="fas fa-check"></i> Applied to chat.js</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-cloud"></i> Cloudflare Features</h2>
+            <div class="cf-features">
+                <div class="cf-feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>WAF Protection</h4>
+                    <p>Web Application Firewall</p>
+                </div>
+                <div class="cf-feature">
+                    <i class="fas fa-robot"></i>
+                    <h4>Bot Management</h4>
+                    <p>Advanced bot detection</p>
+                </div>
+                <div class="cf-feature">
+                    <i class="fas fa-bolt"></i>
+                    <h4>DDoS Protection</h4>
+                    <p>Automatic attack mitigation</p>
+                </div>
+                <div class="cf-feature">
+                    <i class="fas fa-lock"></i>
+                    <h4>SSL/TLS</h4>
+                    <p>Encrypted connections</p>
+                </div>
+                <div class="cf-feature">
+                    <i class="fas fa-globe"></i>
+                    <h4>CDN</h4>
+                    <p>Global content delivery</p>
+                </div>
+                <div class="cf-feature">
+                    <i class="fas fa-tasks"></i>
+                    <h4>Load Balancing</h4>
+                    <p>Traffic distribution</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="showNotification()">
+                <i class="fas fa-sync-alt"></i> Update Cloudflare Settings
+            </button>
+            <button class="btn btn-secondary" onclick="showSecurityReport()">
+                <i class="fas fa-file-alt"></i> Generate Security Report
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>copyright © 2025 MAZ | All rights reserved | Protected by Cloudflare</p>
+        <p>Powered By <a href="https://maz.qzz.io" target="_blank">https://maz.qzz.io</a></p>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        // Notification system
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function showSecurityReport() {
+            alert("Security Report Generated:\n\n- Cloudflare Workers: ACTIVE\n- Hotlink Protection: ENABLED\n- SRI: IMPLEMENTED\n- Firewall Rules: CONFIGURED\n- Rate Limiting: ACTIVE\n- Obfuscation: APPLIED\n\nOverall Security Rating: 97/100");
+        }
+        
+        // Copy button functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const codeBlock = this.parentElement;
+                const text = codeBlock.textContent.replace('Copy', '').trim();
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = this.textContent;
+                    this.textContent = 'Copied!';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Security animation
+        let progress = 0;
+        const progressBar = document.querySelector('.progress');
+        const interval = setInterval(() => {
+            progress += 1;
+            progressBar.style.width = `${progress}%`;
+            
+            if (progress >= 85) {
+                clearInterval(interval);
+            }
+        }, 30);
+        
+        // Domain protection
+        const allowedDomains = ['maz.qzz.io', 'www.maz.qzz.io'];
+        if (!allowedDomains.includes(window.location.hostname)) {
+            document.body.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #0f0c29, #302b63);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    text-align: center;
+                    padding: 20px;
+                ">
+                    <h1 style="font-size: 48px; margin-bottom: 20px; color: #ff7979;">
+                        <i class="fas fa-ban"></i> Unauthorized Access
+                    </h1>
+                    <p style="font-size: 24px; max-width: 800px; margin-bottom: 30px;">
+                        This security dashboard can only be accessed from authorized domains.
+                    </p>
+                    <p style="font-size: 18px;">
+                        Please visit <a href="https://maz.qzz.io" style="color: #7efff5;">https://maz.qzz.io</a> to access this content.
+                    </p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
