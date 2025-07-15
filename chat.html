@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAZ - WEB</title>
+    <link rel="stylesheet" href="ccs/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    <div class="chat-container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-stars"></i>
+                <h1>MAZ</h1>
+            </div>
+            <div class="user-info">
+                <span id="user-email">user@example.com</span>
+                <button id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+        
+        <main class="chat-messages" id="chat-messages">
+            <div class="message ai-message">
+                <div class="avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="content">
+                    <div class="text">Hello! I'm MAZ, your AI assistant. How can I help you today?</div>
+                </div>
+            </div>
+        </main>
+        
+        <div class="chat-input-container">
+            <div class="input-wrapper">
+                <textarea id="message-input" placeholder="Message MAZ..." rows="1"></textarea>
+                <button id="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="disclaimer">
+                MAZ can make mistakes. Consider verifying important information.
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 MAZ | all rights reserved</p>
+            <p>Powered By <a href="https://maz.qzz.io" target="_blank">https://maz.qzz.io</a></p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>
